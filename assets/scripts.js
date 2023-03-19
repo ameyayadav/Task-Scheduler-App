@@ -90,14 +90,14 @@
 // $(initScheduler);
 
 
-// cache DOM elements
+//  DOM elements
 var currentDayEl = $('#currentDay');
 var timeBlock = $('#time-block');
 
-// create global variables
+// create  variables
 var currentHour = moment().set({minutes: 0, seconds: 0, milliseconds: 0});
 
-// create empty task object
+// create empty  object
 var taskArr = {};
 taskArr = JSON.parse(localStorage.getItem('storedTaskArr'));
 
@@ -114,12 +114,12 @@ function displayTask(time) {
     var taskRowEl = $('<tr>').addClass('row');
     var hourEl = $('<td>').addClass('hour col-2').text(time.format('h A'));
     var toDoEl = $('<td>').addClass('col-8 p-0');
-    var toDoInput = $('<textarea>').addClass('description');
+    var toDoInput = $('<textarea>').addClass('defination');
     toDoInput.attr('id', time.format('H')).text(taskArr[time.format('H')]);
     var saveBtnEl = $('<td>').addClass('saveBtn col-2').text('Save 💾');
-    saveBtnEl.attr('data-time', time.format('H'));
+    saveBtnEl.attr('data-attrtime', time.format('H'));
 
-    // append elements to the table row and table
+    // appending elements to the table row and table
     toDoEl.append(toDoInput);
     taskRowEl.append(hourEl, toDoEl, saveBtnEl);
     timeBlock.append(taskRowEl);
@@ -160,20 +160,20 @@ function taskManager(event) {
     var targetHour = $(targetEl).attr('data-time');  
     var taskToSave = $('#' + targetHour).val();
 
-    // if (taskArr === null || taskArr.date != moment().format('DD/MM/YYYY')) {
-    //     taskArr = {};
-    //     taskArr.date = moment().format('DD/MM/YYYY');
-    //     taskArr[targetHour] = taskToSave; 
-    // } else {
-    //     taskArr[targetHour] = taskToSave; 
-    // }
-    // localStorage.setItem('storedTaskArr', JSON.stringify(taskArr));
+    if (taskArr === null || taskArr.date != moment().format('DD/MM/YYYY')) {
+        taskArr = {};
+        taskArr.date = moment().format('DD/MM/YYYY');
+        taskArr[targetHour] = taskToSave; 
+    } else {
+        taskArr[targetHour] = taskToSave; 
+    }
+    localStorage.setItem('storedTaskArr', JSON.stringify(taskArr));
 
-    const today = moment().format('DD/MM/YYYY');
-const taskArr = localStorage.getItem(today) ? JSON.parse(localStorage.getItem(today)) : {};
+//     const today = moment().format('DD/MM/YYYY');
+// const taskArr = localStorage.getItem(today) ? JSON.parse(localStorage.getItem(today)) : {};
 
-taskArr[targetHour] = taskToSave;
-localStorage.setItem(today, JSON.stringify(taskArr));
+// taskArr[targetHour] = taskToSave;
+// localStorage.setItem(today, JSON.stringify(taskArr));
 
 }
 
@@ -187,6 +187,7 @@ $(function() {
         taskArr.date = moment().format('DD/MM/YYYY');
         localStorage.setItem('storedTaskArr', JSON.stringify(taskArr));
     } 
+ 
     // render all the time blocks based on the local storage
     completeTasks();
     // event listener for the save button
